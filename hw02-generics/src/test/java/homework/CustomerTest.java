@@ -11,8 +11,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class CustomerTest {
 
-    // Все тесты должны проходить, менять тесты не надо.
-
     @Test
     @DisplayName("Проверяем, что класс Customer не сломан")
     void setterCustomerTest() {
@@ -38,9 +36,6 @@ class CustomerTest {
 
         String expectedData = "data";
         map.put(customer, expectedData);
-
-        System.out.println(customer.hashCode());
-        System.out.println(new Customer(customerId, "IvanChangedName", 2).hashCode());
 
         //when
         long newScore = customer.getScores() + 10;
