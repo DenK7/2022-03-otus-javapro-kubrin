@@ -39,6 +39,9 @@ class CustomerTest {
         String expectedData = "data";
         map.put(customer, expectedData);
 
+        System.out.println(customer.hashCode());
+        System.out.println(new Customer(customerId, "IvanChangedName", 2).hashCode());
+
         //when
         long newScore = customer.getScores() + 10;
         String factData = map.get(new Customer(customerId, "IvanChangedName", newScore));
