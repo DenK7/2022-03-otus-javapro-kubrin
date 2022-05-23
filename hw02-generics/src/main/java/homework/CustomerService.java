@@ -16,14 +16,14 @@ public class CustomerService {
 
     public Map.Entry<Customer, String> getSmallest() {
         var data = customerStringTreeMap.firstEntry();
-        return new AbstractMap.SimpleEntry<>(new Customer(data.getKey()), data.getValue()) ; // это "заглушка, чтобы скомилировать"
+        return new AbstractMap.SimpleEntry<>(new Customer(data.getKey()), data.getValue()) ;
     }
 
     public Map.Entry<Customer, String> getNext(Customer customer) {
         var data = customerStringTreeMap.higherEntry(customer);
         if (data == null)
             return null;
-        return new AbstractMap.SimpleEntry<>(new Customer(data.getKey()), data.getValue()); // это "заглушка, чтобы скомилировать"
+        return new AbstractMap.SimpleEntry<>(new Customer(data.getKey()), data.getValue());
     }
 
     public void add(Customer customer, String data) {
