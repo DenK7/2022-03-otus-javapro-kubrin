@@ -1,0 +1,2 @@
+public class HWClass {
+}
