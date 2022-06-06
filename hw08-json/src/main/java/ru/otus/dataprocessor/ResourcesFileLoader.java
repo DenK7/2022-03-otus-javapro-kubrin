@@ -1,16 +1,12 @@
 package ru.otus.dataprocessor;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import ru.otus.model.Measurement;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,14 +21,15 @@ public class ResourcesFileLoader implements Loader {
     @Override
     public List<Measurement> load() {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        File is = new File(Objects.requireNonNull(classloader.getResource(fileName)).getFile().replace("%20", " "));
+        File file = new File(Objects.requireNonNull(classloader.getResource(fileName)).getFile().replace("%20", " "));
 
-        ObjectMapper mapper = new ObjectMapper();
+        var mapper = new ObjectMapper();
+        var module = new SimpleModule();
+        module.addDeserializer(Measurement.class, new MeasurementDeserializer());
+        mapper.registerModule(module);
+
         try {
-//            CollectionType listType =
-//                    mapper.getTypeFactory().constructCollectionType(ArrayList.class, Measurement.class);
-//            return mapper.readValue(is, listType);
-            return mapper.readValue(is, new TypeReference<List>() {});
+            return mapper.readValue(file, new TypeReference<List<Measurement>>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
