@@ -19,7 +19,7 @@ public class FileSerializer implements Serializer {
         try {
             new ObjectMapper().writeValue(new File(fileName), data);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FileProcessException(e.getMessage());
         }
     }
 }

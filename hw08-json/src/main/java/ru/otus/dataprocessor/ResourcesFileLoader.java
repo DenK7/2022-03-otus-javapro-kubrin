@@ -5,10 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import ru.otus.model.Measurement;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
-import java.util.Objects;
 
 public class ResourcesFileLoader implements Loader {
 
@@ -20,8 +19,7 @@ public class ResourcesFileLoader implements Loader {
 
     @Override
     public List<Measurement> load() {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        File file = new File(Objects.requireNonNull(classloader.getResource(fileName)).getFile().replace("%20", " "));
+        InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
 
         var mapper = new ObjectMapper();
         var module = new SimpleModule();
@@ -29,7 +27,7 @@ public class ResourcesFileLoader implements Loader {
         mapper.registerModule(module);
 
         try {
-            return mapper.readValue(file, new TypeReference<List<Measurement>>() {});
+            return mapper.readValue(is, new TypeReference<List<Measurement>>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
