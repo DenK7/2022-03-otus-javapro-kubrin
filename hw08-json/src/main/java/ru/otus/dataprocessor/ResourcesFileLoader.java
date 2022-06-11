@@ -29,10 +29,8 @@ public class ResourcesFileLoader implements Loader {
         try {
             return mapper.readValue(is, new TypeReference<List<Measurement>>() {});
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FileProcessException(e.getMessage());
         }
-
-        return null;
     }
 
 }
