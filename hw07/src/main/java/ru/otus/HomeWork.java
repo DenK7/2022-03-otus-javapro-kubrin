@@ -2,6 +2,7 @@ package ru.otus;
 
 import ru.otus.handler.ComplexProcessor;
 import ru.otus.listener.ListenerPrinterConsole;
+import ru.otus.listener.homework.HistoryListener;
 import ru.otus.model.Message;
 import ru.otus.model.ObjectForMessage;
 import ru.otus.processor.*;
@@ -26,7 +27,7 @@ public class HomeWork {
                 new ProcessorException());
 
         var complexProcessor = new ComplexProcessor(processors, ex -> {});
-        var listenerPrinter = new ListenerPrinterConsole();
+        var listenerPrinter = new HistoryListener(); //ListenerPrinterConsole();
         complexProcessor.addListener(listenerPrinter);
 
         var list = new ArrayList<String>();

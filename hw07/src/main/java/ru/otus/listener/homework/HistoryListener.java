@@ -3,19 +3,21 @@ package ru.otus.listener.homework;
 import ru.otus.listener.Listener;
 import ru.otus.model.Message;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 public class HistoryListener implements Listener, HistoryReader {
 
-    private HashMap<Long, Message> historyMessagesHashMap;
+    private List<Message> historyMessagesHashMap;
 
     @Override
     public void onUpdated(Message msg) {
         if (historyMessagesHashMap == null) {
-            historyMessagesHashMap = new HashMap<>();
+            historyMessagesHashMap = new ArrayList<>();
         }
-        historyMessagesHashMap.put(msg.getId(),
+        historyMessagesHashMap.add(
                 new Message.Builder(msg.getId())
                         .field1(msg.getField1())
                         .field2(msg.getField2())
@@ -36,8 +38,13 @@ public class HistoryListener implements Listener, HistoryReader {
     @Override
     public Optional<Message> findMessageById(long id) {
         if (historyMessagesHashMap == null) {
-            historyMessagesHashMap = new HashMap<>();
+            return Optional.empty();
         }
-        return Optional.ofNullable(historyMessagesHashMap.get(id));
+        for (Message message: historyMessagesHashMap) {
+            if (message.getId() == id) {
+                return Optional.of(message);
+            }
+        }
+        return Optional.empty();
     }
 }

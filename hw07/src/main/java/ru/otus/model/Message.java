@@ -1,6 +1,7 @@
 package ru.otus.model;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Message {
     private final long id;
@@ -114,6 +115,7 @@ public class Message {
 
     @Override
     public String toString() {
+        String fld13 = field13 != null ? String.join(",", field13.getData()) : "null";
         return "Message{" +
                 "id=" + id +
                 ", field1='" + field1 + '\'' +
@@ -128,7 +130,7 @@ public class Message {
                 ", field10='" + field10 + '\'' +
                 ", field11='" + field11 + '\'' +
                 ", field12='" + field12 + '\'' +
-                ", field13='" + field13.toString() + '\'' +
+                ", field13='" + fld13 + '\'' +
                 '}';
     }
 
