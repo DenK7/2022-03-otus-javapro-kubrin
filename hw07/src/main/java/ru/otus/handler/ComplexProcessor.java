@@ -24,12 +24,12 @@ public class ComplexProcessor implements Handler {
         Message newMsg = msg;
         for (Processor pros : processors) {
             try {
+                notify(newMsg);
                 newMsg = pros.process(newMsg);
             } catch (Exception ex) {
                 errorHandler.accept(ex);
             }
         }
-        notify(newMsg);
         return newMsg;
     }
 
