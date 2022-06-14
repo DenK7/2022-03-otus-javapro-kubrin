@@ -12,13 +12,6 @@ import java.util.List;
 
 public class HomeWork {
 
-    /*
-     Реализовать to do:
-       3. Сделать процессор, который будет выбрасывать исключение в четную секунду (сделайте тест с гарантированным результатом)
-             Тест - важная часть задания
-             Обязательно посмотрите пример к паттерну Мементо!
-     */
-
     public static void main(String[] args) {
         var processors = List.of(
                 new ProcessorConcatFields(),
