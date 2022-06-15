@@ -1,7 +1,6 @@
 package ru.otus.model;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class Message {
     private final long id;
