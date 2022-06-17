@@ -1,5 +1,6 @@
 rootProject.name = 'otusJavaProHW'
 include 'hw01-gradle'
 include 'hw02-generics'
-include 'hw08-json'
 include 'hw03-annotation'
+include 'hw07'
+include 'hw08-json'
