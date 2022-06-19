@@ -1,4 +1,4 @@
-package ru.otus.datasource;
+package ru.otus.crm.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

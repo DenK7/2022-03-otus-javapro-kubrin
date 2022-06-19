@@ -1,4 +1,4 @@
-package ru.otus.repository.executor;
+package ru.otus.core.repository.executor;
 
 import ru.otus.core.sessionmanager.DataBaseOperationException;
 

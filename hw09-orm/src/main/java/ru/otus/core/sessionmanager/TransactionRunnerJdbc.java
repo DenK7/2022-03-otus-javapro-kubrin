@@ -1,4 +1,4 @@
-package ru.otus.sessionmanager;
+package ru.otus.core.sessionmanager;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;

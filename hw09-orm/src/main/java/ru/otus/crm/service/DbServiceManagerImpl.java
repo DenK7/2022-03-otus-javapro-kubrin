@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import ru.otus.core.repository.DataTemplate;
 import ru.otus.core.sessionmanager.TransactionRunner;
 import ru.otus.crm.model.Manager;
+import ru.otus.service.DBServiceManager;
+
 import java.util.List;
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package ru.otus.sessionmanager;
+package ru.otus.core.sessionmanager;
 
 import java.sql.Connection;
 import java.util.function.Function;

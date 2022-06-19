@@ -1,7 +1,7 @@
 package ru.otus.jdbc.mapper;
 
-import ru.otus.repository.DataTemplate;
-import ru.otus.repository.executor.DbExecutor;
+import ru.otus.core.repository.DataTemplate;
+import ru.otus.core.repository.executor.DbExecutor;
 
 import java.sql.Connection;
 import java.util.List;

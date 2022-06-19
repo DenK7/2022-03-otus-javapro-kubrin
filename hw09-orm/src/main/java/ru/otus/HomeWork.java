@@ -3,20 +3,16 @@ package ru.otus;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.core.repository.executor.DbExecutorImpl;
-import ru.otus.core.sessionmanager.TransactionRunnerJdbc;
 import ru.otus.crm.datasource.DriverManagerDataSource;
 import ru.otus.crm.model.Client;
 import ru.otus.crm.model.Manager;
-import ru.otus.crm.service.DbServiceClientImpl;
-import ru.otus.crm.service.DbServiceManagerImpl;
-import ru.otus.datasource.DriverManagerDataSource;
+import ru.otus.jdbc.mapper.DataTemplateJdbc;
 import ru.otus.jdbc.mapper.EntityClassMetaData;
 import ru.otus.jdbc.mapper.EntitySQLMetaData;
-import ru.otus.jdbc.mapper.DataTemplateJdbc;
-import ru.otus.repository.executor.DbExecutorImpl;
+import ru.otus.core.repository.executor.DbExecutorImpl;
 import ru.otus.service.DbServiceClientImpl;
-import ru.otus.sessionmanager.TransactionRunnerJdbc;
+import ru.otus.service.DbServiceManagerImpl;
+import ru.otus.core.sessionmanager.TransactionRunnerJdbc;
 
 import javax.sql.DataSource;
 
