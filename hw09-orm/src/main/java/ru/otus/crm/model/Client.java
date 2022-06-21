@@ -1,7 +1,14 @@
 package ru.otus.crm.model;
 
+import ru.otus.jdbc.annotations.ColumnData;
+import ru.otus.jdbc.annotations.PrimaryKey;
+import ru.otus.jdbc.annotations.TableData;
+
+@TableData(name = "client")
 public class Client {
+    @PrimaryKey
     private Long id;
+    @ColumnData
     private String name;
 
     public Client() {

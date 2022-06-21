@@ -1,8 +1,16 @@
 package ru.otus.crm.model;
 
+import ru.otus.jdbc.annotations.ColumnData;
+import ru.otus.jdbc.annotations.PrimaryKey;
+import ru.otus.jdbc.annotations.TableData;
+
+@TableData
 public class Manager {
+    @PrimaryKey()
     private Long no;
+    @ColumnData
     private String label;
+    @ColumnData
     private String param1;
 
     public Manager() {
