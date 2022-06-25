@@ -67,20 +67,20 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     @Override
     public List<T> findAll(Connection connection) {
-            return dbExecutor.executeSelect(connection, entitySQLMetaData.getSelectAllSql(), Collections.emptyList(), rs -> {
-                List<T> listResults = new ArrayList<>();
-                try {
-                    while (rs.next()) {
-                        Constructor<?> constructor = entityClassMetaData.getConstructor();
-                        var objectFromClazz = constructor.newInstance();
-                        setDataIntoFieldsObject((T) objectFromClazz, rs);
-                        listResults.add((T) objectFromClazz);
-                    }
-                    return listResults;
-                } catch (Exception e) {
-                    throw new DataTemplateException(e);
+        return dbExecutor.executeSelect(connection, entitySQLMetaData.getSelectAllSql(), Collections.emptyList(), rs -> {
+            List<T> listResults = new ArrayList<>();
+            try {
+                while (rs.next()) {
+                    Constructor<?> constructor = entityClassMetaData.getConstructor();
+                    var objectFromClazz = constructor.newInstance();
+                    setDataIntoFieldsObject((T) objectFromClazz, rs);
+                    listResults.add((T) objectFromClazz);
                 }
-            }).orElseThrow(() -> new RuntimeException("Unexpected error"));
+                return listResults;
+            } catch (Exception e) {
+                throw new DataTemplateException(e);
+            }
+        }).orElseThrow(() -> new RuntimeException("Unexpected error"));
     }
 
     @Override
