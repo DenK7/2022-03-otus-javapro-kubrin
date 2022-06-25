@@ -47,7 +47,7 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData{
     public Field getIdField() {
         try {
             Class<?> clazz = Class.forName(className);
-            for (Field field: clazz.getFields()) {
+            for (Field field: clazz.getDeclaredFields()) {
                 if (checkAnnotation(field, "PrimaryKey")) {
                     return field;
                 }
@@ -65,7 +65,7 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData{
         try {
             Class<?> clazz = Class.forName(className);
             //можно было просто все вытащить, но хотелось только те поля, которые есть в бд
-            for (Field field: clazz.getFields()) {
+            for (Field field: clazz.getDeclaredFields()) {
                 if (checkAnnotation(field, "PrimaryKey") || checkAnnotation(field, "ColumnData")) {
                     fields.add(field);
                 }

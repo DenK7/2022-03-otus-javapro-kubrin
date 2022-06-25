@@ -21,7 +21,7 @@ public class EntitySQLMetaDataImpl implements EntitySQLMetaData{
     public String getSelectByIdSql() {
         var name = entityClassMetaData.getName();
         return "select " + getFields(entityClassMetaData.getAllFields()) +
-                " from " + name + " where " + entityClassMetaData.getIdField() + "= ?";
+                " from " + name + " where " + entityClassMetaData.getIdField().getName().toLowerCase() + "= ?";
     }
 
     @Override

@@ -3,9 +3,12 @@ package ru.otus.jdbc.mapper;
 import ru.otus.core.repository.DataTemplate;
 import ru.otus.core.repository.DataTemplateException;
 import ru.otus.core.repository.executor.DbExecutor;
+import ru.otus.jdbc.annotations.*;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +30,38 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     @Override
     public Optional<T> findById(Connection connection, long id) {
-        throw new UnsupportedOperationException();
+        try {
+            String sql = entitySQLMetaData.getSelectByIdSql();
+            return (Optional<T>) dbExecutor.executeSelect(connection, sql, List.of(id), rs -> {
+                try {
+                    if (rs.next()) {
+                        Constructor<?> constructor = entityClassMetaData.getConstructor();
+                        var objectFromClazz = constructor.newInstance();
+                        setDataIntoFieldsObject((T) objectFromClazz, rs);
+
+                        return objectFromClazz;
+                    }
+                    return null;
+                } catch (Exception e) {
+                    throw new DataTemplateException(e);
+                }
+            });
+        } catch (Exception e) {
+            throw new DataTemplateException(e);
+        }
+    }
+
+    private void setDataIntoFieldsObject(T object, ResultSet rs) {
+        try {
+            for (Field field : object.getClass().getDeclaredFields()) {
+                if (field.getAnnotation(PrimaryKey.class) != null || field.getAnnotation(ColumnData.class) != null) {
+                    field.setAccessible(true);
+                    field.set(object, rs.getObject(field.getName()));
+                }
+            }
+        } catch (Exception e) {
+            throw new DataTemplateException(e);
+        }
     }
 
     @Override
