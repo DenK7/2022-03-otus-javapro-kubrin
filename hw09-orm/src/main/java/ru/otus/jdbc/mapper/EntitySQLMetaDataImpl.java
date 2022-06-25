@@ -20,18 +20,22 @@ public class EntitySQLMetaDataImpl implements EntitySQLMetaData{
     @Override
     public String getSelectByIdSql() {
         var name = entityClassMetaData.getName();
-        return "select " + getFields(entityClassMetaData.getAllFields()) + " from " + name + " where " + entityClassMetaData.getIdField() + "= :id";
+        return "select " + getFields(entityClassMetaData.getAllFields()) +
+                " from " + name + " where " + entityClassMetaData.getIdField() + "= ?";
     }
 
     @Override
     public String getInsertSql() {
         var name = entityClassMetaData.getName();
-        return "insert into " + name + " (" + getFields(entityClassMetaData.getFieldsWithoutId()) + ") values (" + ")";
+        var fields = entityClassMetaData.getFieldsWithoutId();
+        return "insert into " + name + " (" + getFields(fields) + ") values (" + ",?".repeat(fields.size()).substring(1) + ")";
     }
 
     @Override
     public String getUpdateSql() {
         var name = entityClassMetaData.getName();
+        var fields = entityClassMetaData.getFieldsWithoutId();
+
         return "update " + name + " set " + getFields(entityClassMetaData.getFieldsWithoutId()) + ") values (" + ")";
     }
 

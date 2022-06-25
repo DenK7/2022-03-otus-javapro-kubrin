@@ -1,23 +1,28 @@
 package ru.otus.jdbc.mapper;
 
 import ru.otus.core.repository.DataTemplate;
+import ru.otus.core.repository.DataTemplateException;
 import ru.otus.core.repository.executor.DbExecutor;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Сохратяет объект в базу, читает объект из базы
+ * Сохраняет объект в базу, читает объект из базы
  */
 public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     private final DbExecutor dbExecutor;
     private final EntitySQLMetaData entitySQLMetaData;
+    private final EntityClassMetaData entityClassMetaData;
 
-    public DataTemplateJdbc(DbExecutor dbExecutor, EntitySQLMetaData entitySQLMetaData) {
+    public DataTemplateJdbc(DbExecutor dbExecutor, EntitySQLMetaData entitySQLMetaData, EntityClassMetaData entityClassMetaData) {
         this.dbExecutor = dbExecutor;
         this.entitySQLMetaData = entitySQLMetaData;
+        this.entityClassMetaData = entityClassMetaData;
     }
 
     @Override
@@ -32,7 +37,18 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     @Override
     public long insert(Connection connection, T client) {
-        throw new UnsupportedOperationException();
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            for (Object field: entityClassMetaData.getFieldsWithoutId()) {
+                ((Field)field).setAccessible(true);
+                objects.add(((Field)field).get(client));
+            }
+
+            String sql = entitySQLMetaData.getInsertSql();
+            return dbExecutor.executeStatement(connection, sql, objects);
+        } catch (Exception e) {
+            throw new DataTemplateException(e);
+        }
     }
 
     @Override

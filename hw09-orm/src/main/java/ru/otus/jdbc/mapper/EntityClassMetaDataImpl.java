@@ -2,15 +2,13 @@ package ru.otus.jdbc.mapper;
 
 import ru.otus.jdbc.annotations.TableData;
 
-import java.io.FileDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityClassMetaDataImpl implements EntityClassMetaData{
+public class EntityClassMetaDataImpl<T> implements EntityClassMetaData{
     private final String className;
 
     public EntityClassMetaDataImpl(String className) {
@@ -34,10 +32,10 @@ public class EntityClassMetaDataImpl implements EntityClassMetaData{
     }
 
     @Override
-    public Constructor getConstructor() {
+    public Constructor<T> getConstructor() {
         try {
             Class<?> clazz = Class.forName(className);
-            return clazz.getConstructor();
+            return (Constructor<T>) clazz.getConstructor();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +83,7 @@ public class EntityClassMetaDataImpl implements EntityClassMetaData{
         try {
             Class<?> clazz = Class.forName(className);
             //можно было просто все вытащить, но хотелось только те поля, которые есть в бд
-            for (Field field: clazz.getFields()) {
+            for (Field field: clazz.getDeclaredFields()) {
                 if (checkAnnotation(field, "ColumnData")) {
                     fields.add(field);
                 }
