@@ -43,6 +43,9 @@ public class HomeWork {
 
         var clientSecondSelected_upd = dbServiceClient.saveClient(clientSecondSelected);
         log.info("clientSecondSelected_upd:{}", clientSecondSelected_upd);
+        log.info("------------------> select all client <-------------------------");
+        log.info(dbServiceClient.findAll().toString());
+        log.info("------------------> select all client <-------------------------");
 
         EntityClassMetaData entityClassMetaDataManager = new EntityClassMetaDataImpl<Manager>(Manager.class.getName());
         EntitySQLMetaData entitySQLMetaDataManager = new EntitySQLMetaDataImpl(entityClassMetaDataManager);
