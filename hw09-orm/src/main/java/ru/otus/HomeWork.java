@@ -39,6 +39,11 @@ public class HomeWork {
                 .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSecond.getId()));
         log.info("clientSecondSelected:{}", clientSecondSelected);
 
+        clientSecondSelected.setName("test");
+
+        var clientSecondSelected_upd = dbServiceClient.saveClient(clientSecondSelected);
+        log.info("clientSecondSelected_upd:{}", clientSecondSelected_upd);
+
         EntityClassMetaData entityClassMetaDataManager = new EntityClassMetaDataImpl<Manager>(Manager.class.getName());
         EntitySQLMetaData entitySQLMetaDataManager = new EntitySQLMetaDataImpl(entityClassMetaDataManager);
         var dataTemplateManager = new DataTemplateJdbc<Manager>(dbExecutor, entitySQLMetaDataManager, entityClassMetaDataManager);

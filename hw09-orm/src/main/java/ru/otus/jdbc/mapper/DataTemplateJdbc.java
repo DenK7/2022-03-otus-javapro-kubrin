@@ -66,7 +66,29 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     @Override
     public List<T> findAll(Connection connection) {
-        throw new UnsupportedOperationException();
+        return null;
+//        List<T> listResults = new ArrayList<>();
+//        try {
+//            String sql = entitySQLMetaData.getSelectAllSql();
+//            return dbExecutor.executeSelect(connection, sql, null, rs -> {
+//                try {
+//                    if (rs.next()) {
+//                        for (int i = 0; i < rs.getFetchSize() -1; i++) {
+//                            Constructor<?> constructor = entityClassMetaData.getConstructor();
+//                            var objectFromClazz = constructor.newInstance();
+//                            setDataIntoFieldsObject((T) objectFromClazz, rs);
+//                            listResults.add((T) objectFromClazz);
+//                        }
+//                        return listResults;
+//                    }
+//                    return null;
+//                } catch (Exception e) {
+//                    throw new DataTemplateException(e);
+//                }
+//            });
+//        } catch (Exception e) {
+//            throw new DataTemplateException(e);
+//        }
     }
 
     @Override
@@ -87,6 +109,21 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     @Override
     public void update(Connection connection, T client) {
-        throw new UnsupportedOperationException();
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            for (Object field: entityClassMetaData.getFieldsWithoutId()) {
+                ((Field)field).setAccessible(true);
+                objects.add(((Field)field).get(client));
+            }
+
+            var field = entityClassMetaData.getIdField();
+            field.setAccessible(true);
+            objects.add(field.get(client));
+
+            String sql = entitySQLMetaData.getUpdateSql();
+            dbExecutor.executeStatement(connection, sql, objects);
+        } catch (Exception e) {
+            throw new DataTemplateException(e);
+        }
     }
 }
